@@ -1,54 +1,98 @@
-body {
-    background: #111;
-    color: white;
-    text-align: center;
+* {
+    box-sizing: border-box;
+    font-family: 'Courier New';
 }
-h1{
+body {
+    background: black;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    margin: 0%;
+}
+h1 {
     color: aliceblue;
 }
-.box {
-    margin: auto;
-    background-color: rgb(93, 93, 93);
-    border-radius: 4px;
+.game-board {
+    background-color: rgb(56, 56, 56);
+    border-width: 10px;
+    border-radius: 5px;
+    border-style: groove;
+    border-color: #111;
+    width: 60vw;
+    width: min-content;
+    height: min-content;
     padding: 10px;
-    width: fit-content;
+    margin: 10px auto;
+}
+.msg {
+    color: aliceblue;
+    width: max-content;
+    height: max-content;
+    padding: 5px;
+    margin: 10px auto;
+}
+.timer {
+    color: aliceblue;
+    width: max-content;
+    height: max-content;
+    padding: 5px;
+    margin: 10px auto;
+}
+.levels {
+    width: max-content;
+    height: max-content;
+    padding: 5px;
+    margin: 10px auto;
+}
+.consumables {
+    height: max-content;
+    display: block;
+    padding: 5px;
+    margin: 10px auto;
 }
 
-.board{
-    margin: auto;
+.hints {
+    display: inline;
+    width: 30px;
+}
+.lives {
+    color: red;
+    font-size:40px;
+    display: inline;
+    width: 30%;
+}
+.safe {
+   display: inline;
+    width: 30%;
+}
+.cheats {
+    background-color: rgb(84, 110, 133);
+    width: max-content;
+    height: max-content;
+    padding: 5px;
+    margin: 10px auto;
 }
 table {
-    /* border-collapse: separate; */
     border-spacing: 2px;
     width: max-content;
-    padding: 10px;
-    /* padding-top: 20px; */
+    margin: auto;
+    margin-block-start: 10px;
 }
 .cell {
     width: 25px;
     height: 25px;
     border-radius: 5px;
     border: 1px solid rgb(255, 255, 255);
-    background-color: rgb(137, 137, 137);
-    color: #111;
+    background-color: rgb(76, 96, 41);
+    color: #ffffff;
     cursor: pointer;
 }
-.cell:hover{
+.cell:hover {
     background-color: aliceblue;
 }
-
-footer{
-    margin-top: 90%;
-    background-color: gray;
-}
-
-button{
-    margin: auto;
+button:hover{
+    cursor: pointer;
 }
 .restart{
-    margin-top: 10px;
-}
-.lives{
-    color: red;
-    display: inline;
+    font-size:x-large ;
+    background-color: rgb(56, 56, 56);
 }
