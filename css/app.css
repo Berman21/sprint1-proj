@@ -51,18 +51,32 @@ h1 {
 }
 
 .hints {
+    color: yellow;
     display: inline;
     width: 30px;
+    height: fit-content;
+    border-radius: 5px;
+}
+.hints:hover{
+    background-color: rgba(255, 255, 0, 0.466);
+    cursor: pointer;
 }
 .lives {
     color: red;
-    font-size:40px;
     display: inline;
     width: 30%;
+    margin: 5px;
 }
 .safe {
+    color: lightblue;
    display: inline;
     width: 30%;
+    height: fit-content;
+    border-radius: 5px;
+}
+.safe:hover{
+    background-color: rgba(0, 204, 255, 0.464);
+    cursor: pointer;
 }
 .cheats {
     background-color: rgb(84, 110, 133);
@@ -95,4 +109,5 @@ button:hover{
 .restart{
     font-size:x-large ;
     background-color: rgb(56, 56, 56);
+    border: none;
 }

@@ -14,11 +14,14 @@ var gLevel = {
 }
 var gGame = {
     isOn: false,
+    useHint: false,
     shownCount: 0,
     markedCount: 0,
     secsPassed: 0,
     mines: 0
 }
+
+
 
 function createLevel(size, mines) {
     gLevel.size = size
@@ -32,8 +35,18 @@ function onInit() {
     gGame.markedCount = 0
     gGame.secsPassed = 0
     gLevel.openedMines = 0
-    gLevel.lives = 3
-    var elLives = document.querySelector('.lives')
+    gLevel.safe = 3
+    var elSafe = document.querySelector('.safe span')
+    elSafe.innerText = gLevel.safe
+    gLevel.hints = 3
+    var elHints = document.querySelector('.hints span')
+    elHints.innerText = gLevel.hints
+    if (gLevel.size === 4) {
+        gLevel.lives = 2
+    } else {
+        gLevel.lives = 3
+    }
+    var elLives = document.querySelector('.lives span')
     elLives.innerText = gLevel.lives
     var elSmiley = document.querySelector('.restart')
     elSmiley.innerText = '😀'
@@ -125,7 +138,17 @@ function onCellClicked(elCell, i, j) {
         setMinesNegsCount(gBoard, gLevel.mines, i, j)
         startTimer()
     }
-    if (cell.minesAroundCount === 0 && !cell.isMine) {
+    // if (gGame.useHint) {        // not working yet!
+    //     gLevel.hints--
+    //     var elHint = document.querySelector('.hints span')
+    //     elHint.innerText = gLevel.hints
+    //     gGame.useHint = false
+    //     expandShown(gBoard, elCell, i, j)
+    //     gGame.useHint = true
+    //     setTimeout(expandShown, 1000, gBoard, elCell, i, j)
+    //     gGame.useHint = false
+    // } else if
+    if (cell.minesAroundCount === 0 && !cell.isMinen && !gGame.useHint) {
         expandShown(gBoard, elCell, i, j)
     } else if (!cell.isMine) {
         elCell.isShown = true
@@ -143,7 +166,7 @@ function onCellClicked(elCell, i, j) {
         gLevel.lives--
         gLevel.openedMines++
         // console.log('opened mines:', gLevel.openedMines);
-        var elLives = document.querySelector('.lives')
+        var elLives = document.querySelector('.lives span')
         elLives.innerText = gLevel.lives
         if (gLevel.lives === 0 || gLevel.openedMines === gLevel.mines) {
             checkGameOver('🤯', 'YOU LOSE')
@@ -160,11 +183,16 @@ function expandShown(board, elCell, i, j) {
         for (var jIdx = j - 1; jIdx <= j + 1; jIdx++) {
             if (jIdx < 0 || jIdx >= board[j].length) continue
             elCell = document.querySelector(`.cell-${iIdx}-${jIdx}`)
-            if(elCell.isShown)continue
-            elCell.isShown = true
+            if (elCell.isShown && !gGame.useHint) continue
             elCell.innerText = board[iIdx][jIdx].minesAroundCount
+            elCell.isShown = true
             gGame.shownCount++
-            // console.log(gGame.shownCount);
+            // if (gGame.useHint && elCell.isShown) {  // not working yet!
+            //     elCell.innerText = ''
+            //     elCell.isShown = false
+            //     gGame.shownCount--
+            // }
+            console.log(gGame.shownCount);
         }
     }
 }
@@ -206,4 +234,40 @@ function startTimer() {
         var elTimer = document.querySelector('.timer span')
         elTimer.innerText = `${(delta / 1000).toFixed(3)}`
     }, 37)
+}
+
+function onHint() {
+    var elHint = document.querySelector('.hints')
+    if (!gGame.useHint) {
+        elHint.style.backgroundColor = 'rgba(255, 255, 0, 0.466)'
+        gGame.useHint = true
+        // console.log('hint on');
+    } else {
+        elHint.style.backgroundColor = 'rgb(56, 56, 56)'
+        gGame.useHint = false
+        // console.log('hint off');
+    }
+}
+
+function onSafe() {
+    gLevel.safe--
+    var elSafe = document.querySelector('.safe span')
+    elSafe.innerText = gLevel.safe
+
+    var cells = []
+    for (var i = 0; i < gBoard.length; i++) {          // collect all cells other than mines
+        for (var j = 0; j < gBoard.length; j++) {
+            if (!gBoard[i][j].isMine && !gBoard[i][j].isShown) {
+                cells.push({ i, j })
+            }
+        }
+    }        
+    var randIdx = getRandomInt(0, cells.length - 1)
+    var randCellPos = cells[randIdx]
+    var elCell = document.querySelector(`.cell-${randCellPos.i}-${randCellPos.j}`)
+    var intervalId = setInterval(function () {
+        elCell.style.backgroundColor = 'rgb(76, 96, 41)'
+    }, 2000)
+    setTimeout(clearInterval,intervalId)
+    elCell.style.backgroundColor = 'lightblue'
 }
